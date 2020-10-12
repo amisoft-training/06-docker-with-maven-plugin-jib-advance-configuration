@@ -10,17 +10,19 @@ Let's do it manually:
 <u>Note:</u> After command 1 , please run "docker ps". This command will show you the container name. 
 Replace <your container name> with the name of the container.
 
-1. docker run -dit openjdk:8-jdk-alpine
-2. docker container exec <your container name> ls /tmp
-3.docker container cp target/firstapp-0.0.1-SNAPSHOT.jar <your container name>:/tmp
-4.docker container exec <your container name> ls /tmp
-5.docker container commit <your container name> amitaucs/firstapp:latest
-6.docker run amitaucs/firstapp:latest
-7.docker container ls
-8.docker container commit --change='CMD ["java","-jar","/tmp/firstapp-0.0.1-SNAPSHOT.jar"]' <your container name> amitaucs/firstapp:latest
-9.docker run -p 8002:8001 amitaucs/firstapp:latest
+1. docker run -dit openjdk:8-jdk-alpine  <br>
+2. docker container exec <your container name> ls /tmp   <br>
+3.docker container cp target/firstapp-0.0.1-SNAPSHOT.jar <your container name>:/tmp <br>
+4.docker container exec <your container name> ls /tmp <br>
+5.docker container commit <your container name> amitaucs/firstapp:latest  <br>
+6.docker run amitaucs/firstapp:latest  <br>
+7.docker container ls  <br>
+8.docker container commit --change='CMD ["java","-jar","/tmp/firstapp-0.0.1-SNAPSHOT.jar"]' 
+<your container name> amitaucs/firstapp:latest   <br>
+9.docker run -p 8002:8001 amitaucs/firstapp:latest  <br>
 
-Goto your browser and access the URL "http://localhost:8002/home". You will find your application is running.
+Goto your browser and access the URL "http://localhost:8002/home". You will 
+find your application is running.
 
 <b><u>What next:</u></b>
 
