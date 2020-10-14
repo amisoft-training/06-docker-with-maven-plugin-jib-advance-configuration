@@ -9,6 +9,6 @@ public class FirstAppController {
 
     @GetMapping("/home")
     public ResponseEntity<String> home(){
-        return ResponseEntity.ok("Welcome to Docker and Spring boot");
+        return ResponseEntity.ok("Welcome to Docker and Spring boot - with Dockerfile");
     }
 }

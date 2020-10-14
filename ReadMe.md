@@ -16,3 +16,8 @@ Goto your browser and access the URL "http://localhost:8002/home". You will find
    <b> docker images </b>
 
 
+<u><b> Check history </u></b>
+
+To check image creation steps, use the command - <br>
+ <b> docker history amitaucs/firstapp:withdockerfile </b>
+
