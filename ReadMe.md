@@ -14,5 +14,5 @@ Goto your browser and access the URL "http://localhost:8002/home". You will find
 1. Do not forget "." in step 2
 2. After step 2, you can check the image using the command: <br>
    <b> docker images </b>
-3
+
 
