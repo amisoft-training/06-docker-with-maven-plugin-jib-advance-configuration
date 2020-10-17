@@ -34,7 +34,7 @@ For that we did:
             <version>0.0.1-SNAPSHOT</version>  -> project.version
             
 2. Run the maven command :
-     <b> mvn package -DskipTests </u>
+     <b> mvn package -DskipTests </b>
      
   A docker image of the application will be build as :
   Successfully built amitaucs/firstapp:0.0.1-SNAPSHOT
