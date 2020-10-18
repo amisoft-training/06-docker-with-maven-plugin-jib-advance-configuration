@@ -52,3 +52,5 @@ docker history amitaucs/firstapp:0.0.1-SNAPSHOT
 
 Details of the plugin is available at: https://github.com/GoogleContainerTools/jib
 
+<u><b>Please note :</u></b> JIB is Java specific. It is good for simple projects 
+which does not have much complexity.
