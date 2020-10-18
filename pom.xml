@@ -62,8 +62,24 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>${jib-maven-plugin-version}</version>
                 <configuration>
+                    <from>
+                        <image>openjdk:alpine</image>
+                    </from>
+                    <to>
+                        <image>amitaucs/${project.name}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
                     <container>
-                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                        <jvmFlags>
+                            <jvmFlag>-Xms512m</jvmFlag>
+                        </jvmFlags>
+                        <mainClass>com.amisoft.docker.firstapp.FirstappApplication</mainClass>
+                        <ports>
+                            <port>8001</port>
+                        </ports>
                     </container>
                 </configuration>
                 <executions>
