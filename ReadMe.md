@@ -1,71 +1,42 @@
-<p>Now we are able to build our docker image with a single maven command. 
-With this now let's focus on how to improve our docker image and make 
-use of cache.</p>
-<p>Let's look into our docker image it has three parts<br>
-      1. The JDK <br>
-      2. The External libraries, which we have added using maven dependency<br>
-      3. The actual <i>class files</i> developed by us<br>
-  
- We do not change JDK also the dependencies very frequently. So everytime we 
- build docker image we can avoid building JDK and Dependencies unless there 
- is any change and only build the code.
- 
- <p>This can be achieved as :
- 
- 1. Use plugin :
+Let' try another plugin call JIB to build docker image with maven. For that <br>
 
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-dependency-plugin</artifactId>
-                 <executions>
-                     <execution>
-                         <id>unpack</id>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>unpack</goal>
-                         </goals>
-                         <configuration>
-                             <artifactItems>
-                                 <artifactItem>
-                                     <groupId>${project.groupId}</groupId>
-                                     <artifactId>${project.artifactId}</artifactId>
-                                     <version>${project.version}</version>
-                                 </artifactItem>
-                             </artifactItems>
-                         </configuration>
-                     </execution>
-                 </executions>
-             </plugin>
+1. Remove the Dockerfile
+2. Add the below plugin in pom.xml
 
- Details of the plugin is available at :
-  https://maven.apache.org/plugins/maven-dependency-plugin/examples/unpacking-artifacts.html
-      
-<u><b>Note:</u></b> This plugin must be placed before "dockerfile-maven-plugin".
+            <!-- With below plugin Dockerfile is not needed -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin-version}</version>
+                <configuration>
+                    <container>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                    </container>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>dockerBuild</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+"USE_CURRENT_TIMESTAMP" - used for re-producibility of images. Means with same source 
+code we generate image different times, it will be same image.
 
-2. Now comment out the "dockerfile-maven-plugin" for the time being. We shall uncomment it later.
+<u><b>Note:</u></b> This plugin does not need Dockerfile
 
-3. Now run the maven command  <b>maven package -DskipTests</b> . This will unpack the dependencies
-and the class files along with metadata. 
+3.Run "mvn clean package -DskipTests"
+4.A docker image will be created as "project name" as image name and <br>
+"project version" as tag. e.g. in this case it will be  <b>firstapp:0.0.1-SNAPSHOT</b>
+5. Run the image as:<br>
+  <b>docker run -p 8002:8001  firstapp:0.0.1-SNAPSHOT</b>
+6. Application will be available at : http://localhost:8002/home
 
-4. Go to your target folder of the project and you will find a folder named "dependency". Within this
-folder there will be "BOOT-INF" folder which will contain .class file as well as
-dependency libraries.
+If yoo want to see the details of image creation use the command:<br>
+docker history firstapp:0.0.1-SNAPSHOT
 
-5. Now write the DockerFile so that it copies required libraries,class file,metadata
-from "target/dependency"
-
-6. Build the docker image as :<br>
-   <b>docker build -t amitaucs/firstapp:withunpack . </b>
-  
- Now if we make any change in code, only class file will be updated in docker image and for dependencies 
- cache will be used unless there is any change.
- 
-7. Uncomment the "dockerfile-maven-plugin" 
-
-8. Run "mvn package -DskipTests"
-
-9. Run "docker run -p 8002:8001 amitaucs/firstapp:0.0.1-SNAPSHOT"
-
-10. Application will be available at :<br>
-http://localhost:8002/home
+Details of the plugin is available at: https://github.com/GoogleContainerTools/jib
 
